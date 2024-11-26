@@ -1,0 +1,31 @@
+name: HTTPD Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup-httpd:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Install HTTPD
+      - name: Install HTTPD
+        run: sudo apt-get update && sudo apt-get install -y apache2
+
+      # Step 3: Configure and Start HTTPD
+      - name: Start HTTPD Server
+        run: |
+          sudo cp -r ./docs/* /var/www/html/  # Copy your files to Apache's root directory
+          sudo systemctl start apache2       # Start the Apache HTTP server
+          sudo systemctl status apache2      # Verify that it's running
+
+      # Step 4: Test HTTPD
+      - name: Test HTTPD Server
+        run: |
+          curl -I localhost                # Send a request to confirm the server is running
