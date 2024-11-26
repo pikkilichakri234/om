@@ -3,7 +3,7 @@ name: HTTPD Test Workflow
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   setup-httpd:
